@@ -103,4 +103,9 @@ public class LibraryRepImpl implements LibraryRep {
 
 		return updatedBook;
 	}
+
+	@Override
+	public void delete(Long id) {
+		jdbcTemplate.update("DELETE FROM Books WHERE book_id=?", new Object[]{id});
+	}
 }
