@@ -35,6 +35,24 @@ public class LibraryRepImpl implements LibraryRep {
 	}
 
 	@Override
+	public Book findOne(String isbn) {
+		Book book = jdbcTemplate.queryForObject(
+				"SELECT * FROM Books WHERE isbn=?", new Object[]{isbn},
+				(rs, rowNum) -> new Book(
+						rs.getLong("book_id"),
+						rs.getString("isbn"),
+						rs.getString("author"),
+						rs.getString("title"),
+						rs.getInt("num_sells"),
+						new Date(rs.getTimestamp("published_date").getTime()),
+						Genre.valueOf(rs.getString("genre"))
+				)
+		);
+
+		return book;
+	}
+
+	@Override
 	public List<Book> findAll() {
 		List<Book> books = jdbcTemplate.query(
 				"SELECT * FROM Books",

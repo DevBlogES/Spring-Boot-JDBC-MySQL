@@ -10,6 +10,8 @@ import java.util.List;
 public interface LibraryRep {
 	Book findOne(Long id);
 
+	Book findOne(String isbn);
+
 	List<Book> findAll();
 
 	Book save(Book book);

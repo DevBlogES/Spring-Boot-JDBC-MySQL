@@ -2,17 +2,14 @@ package es.devblog.test.Controller;
 
 import es.devblog.test.Model.Book;
 import es.devblog.test.Repository.LibraryRep;
+import es.devblog.test.Service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/books")
@@ -20,6 +17,9 @@ public class LibraryController {
 
 	@Autowired
 	private LibraryRep libraryRepository;
+
+	@Autowired
+	private LibraryService libraryService;
 
 	@RequestMapping(method = GET)
 	public List<Book> findAll() {
@@ -35,5 +35,11 @@ public class LibraryController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
 		libraryRepository.delete(id);
+	}
+
+	@RequestMapping(method = POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public void save(@RequestBody Book book) {
+		libraryService.save(book);
 	}
 }
