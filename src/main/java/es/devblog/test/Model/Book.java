@@ -1,6 +1,11 @@
 package es.devblog.test.Model;
 
-import java.util.Date;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import es.devblog.test.Model.DateUtils.CustomDateTimeDeserializer;
+import es.devblog.test.Model.DateUtils.CustomDateTimeSerializer;
+
+import java.time.LocalDate;
 
 public class Book {
 
@@ -9,13 +14,17 @@ public class Book {
 	private String author;
 	private String title;
 	private int numSells;
-	private Date publishedDate;
+
+	@JsonSerialize(using = CustomDateTimeSerializer.class)
+	@JsonDeserialize(using = CustomDateTimeDeserializer.class)
+	private LocalDate publishedDate;
+
 	private Genre genre;
 
 	public Book() {
 	}
 
-	public Book(Long id, String isbn, String author, String title, int numSells, Date publishedDate, Genre genre) {
+	public Book(Long id, String isbn, String author, String title, int numSells, LocalDate publishedDate, Genre genre) {
 		this.id = id;
 		this.isbn = isbn;
 		this.author = author;
@@ -65,11 +74,11 @@ public class Book {
 		return this;
 	}
 
-	public Date getPublishedDate() {
+	public LocalDate getPublishedDate() {
 		return publishedDate;
 	}
 
-	public Book setPublishedDate(Date publishedDate) {
+	public Book setPublishedDate(LocalDate publishedDate) {
 		this.publishedDate = publishedDate;
 		return this;
 	}
