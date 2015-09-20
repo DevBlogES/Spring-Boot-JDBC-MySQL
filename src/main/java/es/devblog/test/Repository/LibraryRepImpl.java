@@ -2,7 +2,6 @@ package es.devblog.test.Repository;
 
 import es.devblog.test.Model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,17 +32,6 @@ public class LibraryRepImpl implements LibraryRep {
 	}
 
 	@Override
-	public Book findOne(String isbn) {
-		try {
-			Book book = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE isbn=?", new String[]{isbn}, bookRowMapper);
-			return book;
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
-
-	}
-
-	@Override
 	public List<Book> findAll() {
 		List<Book> books = jdbcTemplate.query("SELECT * FROM Books", bookRowMapper);
 
@@ -51,19 +39,16 @@ public class LibraryRepImpl implements LibraryRep {
 	}
 
 	@Override
-	public Book save(Book book) {
+	public void save(Book book) {
 
 		jdbcTemplate.update(
 				"INSERT INTO Books (isbn, author, title, num_sells, published_date, genre) VALUES(?, ?, ?, ?, ?, ?)",
 				book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), book.getPublishedDate().toString(), book.getGenre());
 
-		Book savedBook = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE isbn=?", new Object[]{book.getIsbn()}, bookRowMapper);
-
-		return savedBook;
 	}
 
 	@Override
-	public Book update(Book book) {
+	public void update(Book book) {
 
 		jdbcTemplate.update(
 				"UPDATE Books WHERE book_id=? SET isbn=?, author=?, title=?, num_sells=?, published_date=?, genre=?",
@@ -71,7 +56,6 @@ public class LibraryRepImpl implements LibraryRep {
 
 		Book updatedBook = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE isbn=?", new Object[]{book.getIsbn()}, bookRowMapper);
 
-		return updatedBook;
 	}
 
 	@Override

@@ -10,13 +10,11 @@ import java.util.List;
 public interface LibraryRep {
 	Book findOne(Long id);
 
-	Book findOne(String isbn);
-
 	List<Book> findAll();
 
-	Book save(Book book);
+	void save(Book book);
 
-	Book update(Book book);
+	void update(Book book);
 
 	void delete(Long id);
 }
