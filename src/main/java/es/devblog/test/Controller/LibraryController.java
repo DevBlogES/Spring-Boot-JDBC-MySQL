@@ -38,4 +38,10 @@ public class LibraryController {
 	public void save(@RequestBody Book book) {
 		libraryRepository.save(book);
 	}
+
+	@RequestMapping(method = PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void update(@RequestBody Book book) {
+		libraryRepository.update(book);
+	}
 }

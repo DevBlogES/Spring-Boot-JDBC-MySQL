@@ -26,7 +26,7 @@ public class LibraryRepImpl implements LibraryRep {
 
 	@Override
 	public Book findOne(Long id) {
-		Book book = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE book_id=?", new Object[]{id}, bookRowMapper);
+		Book book = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE book_id=?", new Long[]{id}, bookRowMapper);
 
 		return book;
 	}
@@ -58,6 +58,6 @@ public class LibraryRepImpl implements LibraryRep {
 
 	@Override
 	public void delete(Long id) {
-		jdbcTemplate.update("DELETE FROM Books WHERE book_id=?", new Object[]{id});
+		jdbcTemplate.update("DELETE FROM Books WHERE book_id=?", new Long[]{id});
 	}
 }
