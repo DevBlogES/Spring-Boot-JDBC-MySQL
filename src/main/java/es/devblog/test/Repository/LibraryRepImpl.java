@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -65,11 +64,10 @@ public class LibraryRepImpl implements LibraryRep {
 
 	@Override
 	public Book update(Book book) {
-		Timestamp publishedDate = Timestamp.valueOf(book.getPublishedDate().toString());
 
 		jdbcTemplate.update(
 				"UPDATE Books WHERE book_id=? SET isbn=?, author=?, title=?, num_sells=?, published_date=?, genre=?",
-				book.getId(), book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), publishedDate, book.getGenre());
+				book.getId(), book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), book.getPublishedDate().toString(), book.getGenre());
 
 		Book updatedBook = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE isbn=?", new Object[]{book.getIsbn()}, bookRowMapper);
 

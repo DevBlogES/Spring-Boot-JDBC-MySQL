@@ -12,9 +12,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-/**
- * Created by Warren on 20/09/2015.
- */
 public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -24,7 +21,7 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 		JsonToken jsonToken = jsonParser.getCurrentToken();
 
 		if (jsonToken == JsonToken.VALUE_STRING) {
-			return LocalDate.parse(jsonParser.getText().trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			return LocalDate.parse(jsonParser.getText().trim(), formatter);
 		}
 
 		if (jsonToken == JsonToken.VALUE_NUMBER_INT) {
