@@ -2,8 +2,8 @@ package es.devblog.test.Model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import es.devblog.test.Model.DateUtils.CustomDateTimeDeserializer;
-import es.devblog.test.Model.DateUtils.CustomDateTimeSerializer;
+import es.devblog.test.Model.DateUtils.CustomLocalDateDeserializer;
+import es.devblog.test.Model.DateUtils.CustomLocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -15,16 +15,16 @@ public class Book {
 	private String title;
 	private int numSells;
 
-	@JsonSerialize(using = CustomDateTimeSerializer.class)
-	@JsonDeserialize(using = CustomDateTimeDeserializer.class)
+	@JsonSerialize(using = CustomLocalDateSerializer.class)
+	@JsonDeserialize(using = CustomLocalDateDeserializer.class)
 	private LocalDate publishedDate;
 
-	private Genre genre;
+	private String genre;
 
 	public Book() {
 	}
 
-	public Book(Long id, String isbn, String author, String title, int numSells, LocalDate publishedDate, Genre genre) {
+	public Book(Long id, String isbn, String author, String title, int numSells, LocalDate publishedDate, String genre) {
 		this.id = id;
 		this.isbn = isbn;
 		this.author = author;
@@ -83,25 +83,28 @@ public class Book {
 		return this;
 	}
 
-	public Genre getGenre() {
+	public String getGenre() {
 		return genre;
 	}
 
-	public Book setGenre(Genre genre) {
+	public Book setGenre(String genre) {
 		this.genre = genre;
 		return this;
 	}
 
 	@Override
-	public String toString() {
-		return "Book{" +
-				"id=" + id +
-				", isbn='" + isbn + '\'' +
-				", author='" + author + '\'' +
-				", title='" + title + '\'' +
-				", numSells=" + numSells +
-				", publishedDate=" + publishedDate +
-				", genre=" + genre +
-				'}';
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Book book = (Book) o;
+
+		return getIsbn().equals(book.getIsbn());
+
+	}
+
+	@Override
+	public int hashCode() {
+		return getIsbn().hashCode();
 	}
 }

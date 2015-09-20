@@ -2,7 +2,6 @@ package es.devblog.test.Controller;
 
 import es.devblog.test.Model.Book;
 import es.devblog.test.Repository.LibraryRep;
-import es.devblog.test.Service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +16,6 @@ public class LibraryController {
 
 	@Autowired
 	private LibraryRep libraryRepository;
-
-	@Autowired
-	private LibraryService libraryService;
 
 	@RequestMapping(method = GET)
 	public List<Book> findAll() {
@@ -40,6 +36,6 @@ public class LibraryController {
 	@RequestMapping(method = POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void save(@RequestBody Book book) {
-		libraryService.save(book);
+		libraryRepository.save(book);
 	}
 }

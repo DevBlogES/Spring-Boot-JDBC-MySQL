@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * Created by Warren on 20/09/2015.
  */
-public class CustomDateTimeDeserializer extends JsonDeserializer<LocalDate> {
+public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

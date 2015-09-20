@@ -1,7 +1,6 @@
 package es.devblog.test.Repository;
 
 import es.devblog.test.Model.Book;
-import es.devblog.test.Model.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +23,7 @@ public class LibraryRepImpl implements LibraryRep {
 			rs.getString("title"),
 			rs.getInt("num_sells"),
 			rs.getTimestamp("published_date").toLocalDateTime().toLocalDate(),
-			Genre.valueOf(rs.getString("genre"))
+			rs.getString("genre")
 	);
 
 	@Override
@@ -57,7 +56,7 @@ public class LibraryRepImpl implements LibraryRep {
 
 		jdbcTemplate.update(
 				"INSERT INTO Books (isbn, author, title, num_sells, published_date, genre) VALUES(?, ?, ?, ?, ?, ?)",
-				book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), book.getPublishedDate().toString(), book.getGenre().name());
+				book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), book.getPublishedDate().toString(), book.getGenre());
 
 		Book savedBook = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE isbn=?", new Object[]{book.getIsbn()}, bookRowMapper);
 
@@ -70,7 +69,7 @@ public class LibraryRepImpl implements LibraryRep {
 
 		jdbcTemplate.update(
 				"UPDATE Books WHERE book_id=? SET isbn=?, author=?, title=?, num_sells=?, published_date=?, genre=?",
-				book.getId(), book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), publishedDate, book.getGenre().name());
+				book.getId(), book.getIsbn(), book.getAuthor(), book.getTitle(), book.getNumSells(), publishedDate, book.getGenre());
 
 		Book updatedBook = jdbcTemplate.queryForObject("SELECT * FROM Books WHERE isbn=?", new Object[]{book.getIsbn()}, bookRowMapper);
 
